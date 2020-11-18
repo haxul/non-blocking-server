@@ -16,11 +16,10 @@ public class TransformHandler implements Handler<Socket> {
         ) {
             int data;
             while ((data = in.read()) != -1) {
+                if (data == '%') throw new IOException("haha");
                 int result = Character.isLetter(data) ? data ^ ' ' : data;
                 out.write(result);
             }
-        } catch (Exception e) {
-            // nevermind
         }
     }
 }

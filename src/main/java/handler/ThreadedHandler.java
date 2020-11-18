@@ -1,5 +1,7 @@
 package handler;
 
+import java.io.IOException;
+
 public class ThreadedHandler<S> extends PrintingHandler<S>{
 
     public ThreadedHandler(Handler<S> handler) {
@@ -8,6 +10,12 @@ public class ThreadedHandler<S> extends PrintingHandler<S>{
 
     @Override
     public void handle(S s) {
-        new Thread(() -> super.handle(s)).start();
+        new Thread(() -> {
+            try {
+                super.handle(s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
