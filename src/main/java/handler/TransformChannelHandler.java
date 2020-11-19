@@ -18,15 +18,10 @@ public class TransformChannelHandler implements Handler<SocketChannel> {
             return;
         }
         if (read > 1) {
-            buf.flip();
-            for (int i = 0; i < buf.limit(); i++) {
-                int result = Character.isLetter(buf.get(i)) ? buf.get(i) ^ ' ' : buf.get(i);
-                buf.put(i, (byte) result);
-            }
             while (buf.hasRemaining()) {
                 s.write(buf);
             }
-            buf.compact();
+            buf.clear();
         }
     }
 }
